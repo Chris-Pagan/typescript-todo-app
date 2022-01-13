@@ -49,4 +49,16 @@ body {
   flex: 70%;
   width: 100%;
   background-color: darkorchid;
+  display: flex;
+  align-items: center;
+  padding-top: 50px;
+  flex-direction: column;
+}
+
+.task {
+  width: 500px;
+  height: 50px;
+  display: flex;
+  color: black;
+  margin: 15px;
 }
