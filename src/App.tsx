@@ -1,26 +1,51 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { FC, ChangeEvent, useState } from "react";
+import "./App.css";
+import TodoTask from "./components/TodoTask";
+import { ITask } from "./interfaces";
 
-function App() {
+const App: FC = () => {
+  const [task, setTask] = useState<string>('')
+  const [deadline, setDeadline] = useState<number>(0)
+  const [todoList, setTodoList] = useState<ITask[]>([])
+
+const handleChange = (event: ChangeEvent<HTMLInputElement>): void =>{
+  if (event.target.name === "task"){
+    setTask(event.target.value)
+  } else{
+    setDeadline(Number(event.target.value))
+  }
+}
+const addTask = (): void =>{
+  const newTask ={ taskName: task, deadline: deadline}
+  setTodoList([...todoList, newTask])
+}
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="header">
+        <div className="input-container">
+          <input 
+          type="text" 
+          placeholder="Task Name..." 
+          name="task"
+          value={task}
+           onChange={handleChange} />
+          <input 
+          type="number"
+          placeholder="Deadline in days"
+          name="deadline"
+          value={deadline}
+          onChange={handleChange} />
+        </div>
+        <button onClick={addTask}>Add Task</button>
+      </div>
+      <div className="todoList">
+        {todoList.map((task: ITask, key: number) =>{
+          return <TodoTask key={key} task={task} />
+        })}
+      </div>
     </div>
   );
-}
+};
 
 export default App;
